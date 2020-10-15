@@ -1,0 +1,1090 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Covid}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{from} \PY{n+nn}{datetime} \PY{k+kn}{import} \PY{n}{datetime}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{graph\PYZus{}objects} \PY{k}{as} \PY{n+nn}{go}
+\PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{express} \PY{k}{as} \PY{n+nn}{px}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data\PYZus{}region} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Users}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alessio.zignaigo}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{OneDrive \PYZhy{} SeSa S.p.A}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Desktop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Covid}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dpc\PYZhy{}covid19\PYZhy{}ita\PYZhy{}regioni.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{dtypes}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{data\PYZus{}province} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Users}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alessio.zignaigo}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{OneDrive \PYZhy{} SeSa S.p.A}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Desktop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Covid}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dpc\PYZhy{}covid19\PYZhy{}ita\PYZhy{}province.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}province}\PY{o}{.}\PY{n}{dtypes}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}province}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}province}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}province}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{data\PYZus{}national} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Users}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alessio.zignaigo}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{OneDrive \PYZhy{} SeSa S.p.A}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Desktop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Covid}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dpc\PYZhy{}covid19\PYZhy{}ita\PYZhy{}andamento\PYZhy{}nazionale.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{o}{.}\PY{n}{dtypes}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+data                             object
+stato                            object
+codice\_regione                    int64
+denominazione\_regione            object
+lat                             float64
+long                            float64
+ricoverati\_con\_sintomi            int64
+terapia\_intensiva                 int64
+totale\_ospedalizzati              int64
+isolamento\_domiciliare            int64
+totale\_positivi                   int64
+variazione\_totale\_positivi        int64
+nuovi\_positivi                    int64
+dimessi\_guariti                   int64
+deceduti                          int64
+casi\_da\_sospetto\_diagnostico    float64
+casi\_da\_screening               float64
+totale\_casi                       int64
+tamponi                           int64
+casi\_testati                    float64
+note                             object
+dtype: object
+data                               0
+stato                              0
+codice\_regione                     0
+denominazione\_regione              0
+lat                                0
+long                               0
+ricoverati\_con\_sintomi             0
+terapia\_intensiva                  0
+totale\_ospedalizzati               0
+isolamento\_domiciliare             0
+totale\_positivi                    0
+variazione\_totale\_positivi         0
+nuovi\_positivi                     0
+dimessi\_guariti                    0
+deceduti                           0
+casi\_da\_sospetto\_diagnostico    2562
+casi\_da\_screening               2562
+totale\_casi                        0
+tamponi                            0
+casi\_testati                    1155
+note                            4654
+dtype: int64
+(4914, 21)
+                  data stato  codice\_regione denominazione\_regione        lat  \textbackslash{}
+0  2020-02-24T18:00:00   ITA              13               Abruzzo  42.351222
+1  2020-02-24T18:00:00   ITA              17            Basilicata  40.639471
+2  2020-02-24T18:00:00   ITA              18              Calabria  38.905976
+3  2020-02-24T18:00:00   ITA              15              Campania  40.839566
+4  2020-02-24T18:00:00   ITA               8        Emilia-Romagna  44.494367
+
+        long  ricoverati\_con\_sintomi  terapia\_intensiva  totale\_ospedalizzati  \textbackslash{}
+0  13.398438                       0                  0                     0
+1  15.805148                       0                  0                     0
+2  16.594402                       0                  0                     0
+3  14.250850                       0                  0                     0
+4  11.341721                      10                  2                    12
+
+   isolamento\_domiciliare  {\ldots}  variazione\_totale\_positivi  nuovi\_positivi  \textbackslash{}
+0                       0  {\ldots}                           0               0
+1                       0  {\ldots}                           0               0
+2                       0  {\ldots}                           0               0
+3                       0  {\ldots}                           0               0
+4                       6  {\ldots}                           0              18
+
+   dimessi\_guariti  deceduti  casi\_da\_sospetto\_diagnostico  casi\_da\_screening  \textbackslash{}
+0                0         0                           NaN                NaN
+1                0         0                           NaN                NaN
+2                0         0                           NaN                NaN
+3                0         0                           NaN                NaN
+4                0         0                           NaN                NaN
+
+   totale\_casi  tamponi  casi\_testati  note
+0            0        5           NaN   NaN
+1            0        0           NaN   NaN
+2            0        1           NaN   NaN
+3            0       10           NaN   NaN
+4           18      148           NaN   NaN
+
+[5 rows x 21 columns]
+data                        object
+stato                       object
+codice\_regione               int64
+denominazione\_regione       object
+codice\_provincia             int64
+denominazione\_provincia     object
+sigla\_provincia             object
+lat                        float64
+long                       float64
+totale\_casi                  int64
+note                        object
+dtype: object
+data                           0
+stato                          0
+codice\_regione                 0
+denominazione\_regione          0
+codice\_provincia               0
+denominazione\_provincia        0
+sigla\_provincia             7500
+lat                         7266
+long                        7266
+totale\_casi                    0
+note                       32237
+dtype: int64
+(32304, 11)
+                  data stato  codice\_regione denominazione\_regione  \textbackslash{}
+0  2020-02-24T18:00:00   ITA              13               Abruzzo
+1  2020-02-24T18:00:00   ITA              13               Abruzzo
+2  2020-02-24T18:00:00   ITA              13               Abruzzo
+3  2020-02-24T18:00:00   ITA              13               Abruzzo
+4  2020-02-24T18:00:00   ITA              13               Abruzzo
+
+   codice\_provincia               denominazione\_provincia sigla\_provincia  \textbackslash{}
+0                66                              L'Aquila              AQ
+1                67                                Teramo              TE
+2                68                               Pescara              PE
+3                69                                Chieti              CH
+4               979  In fase di definizione/aggiornamento             NaN
+
+         lat       long  totale\_casi note
+0  42.351222  13.398438            0  NaN
+1  42.658918  13.704400            0  NaN
+2  42.464584  14.213648            0  NaN
+3  42.351032  14.167546            0  NaN
+4        NaN        NaN            0  NaN
+data                             object
+stato                            object
+ricoverati\_con\_sintomi            int64
+terapia\_intensiva                 int64
+totale\_ospedalizzati              int64
+isolamento\_domiciliare            int64
+totale\_positivi                   int64
+variazione\_totale\_positivi        int64
+nuovi\_positivi                    int64
+dimessi\_guariti                   int64
+deceduti                          int64
+casi\_da\_sospetto\_diagnostico    float64
+casi\_da\_screening               float64
+totale\_casi                       int64
+tamponi                           int64
+casi\_testati                    float64
+note                             object
+dtype: object
+data                              0
+stato                             0
+ricoverati\_con\_sintomi            0
+terapia\_intensiva                 0
+totale\_ospedalizzati              0
+isolamento\_domiciliare            0
+totale\_positivi                   0
+variazione\_totale\_positivi        0
+nuovi\_positivi                    0
+dimessi\_guariti                   0
+deceduti                          0
+casi\_da\_sospetto\_diagnostico    122
+casi\_da\_screening               122
+totale\_casi                       0
+tamponi                           0
+casi\_testati                     55
+note                            190
+dtype: int64
+(234, 17)
+                  data stato  ricoverati\_con\_sintomi  terapia\_intensiva  \textbackslash{}
+0  2020-02-24T18:00:00   ITA                     101                 26
+1  2020-02-25T18:00:00   ITA                     114                 35
+2  2020-02-26T18:00:00   ITA                     128                 36
+3  2020-02-27T18:00:00   ITA                     248                 56
+4  2020-02-28T18:00:00   ITA                     345                 64
+
+   totale\_ospedalizzati  isolamento\_domiciliare  totale\_positivi  \textbackslash{}
+0                   127                      94              221
+1                   150                     162              311
+2                   164                     221              385
+3                   304                     284              588
+4                   409                     412              821
+
+   variazione\_totale\_positivi  nuovi\_positivi  dimessi\_guariti  deceduti  \textbackslash{}
+0                           0             221                1         7
+1                          90              93                1        10
+2                          74              78                3        12
+3                         203             250               45        17
+4                         233             238               46        21
+
+   casi\_da\_sospetto\_diagnostico  casi\_da\_screening  totale\_casi  tamponi  \textbackslash{}
+0                           NaN                NaN          229     4324
+1                           NaN                NaN          322     8623
+2                           NaN                NaN          400     9587
+3                           NaN                NaN          650    12014
+4                           NaN                NaN          888    15695
+
+   casi\_testati note
+0           NaN  NaN
+1           NaN  NaN
+2           NaN  NaN
+3           NaN  NaN
+4           NaN  NaN
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}add daily cases/deaths/recovered columns}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}casi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}deaths}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deceduti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}recovered}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dimessi\PYZus{}guariti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tamponi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}unique\PYZus{}tested}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{casi\PYZus{}testati}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}add a day/day\PYZhy{}1 percentage change for new\PYZus{}cases}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{daily\PYZus{}cases\PYZus{}perc\PYZus{}change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{daily\PYZus{}swab\PYZus{}perc\PYZus{}change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{daily\PYZus{}unique\PYZus{}tested\PYZus{}perc\PYZus{}change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}unique\PYZus{}tested}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}detect ratio}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{detect\PYZus{}ratio\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{detect\PYZus{}ratio\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}unique\PYZus{}tested}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{data\PYZus{}national}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                    data stato  ricoverati\_con\_sintomi  terapia\_intensiva  \textbackslash{}
+224  2020-10-05T17:00:00   ITA                    3487                323
+225  2020-10-06T17:00:00   ITA                    3625                319
+226  2020-10-07T17:00:00   ITA                    3782                337
+227  2020-10-08T17:00:00   ITA                    3925                358
+228  2020-10-09T17:00:00   ITA                    4086                387
+229  2020-10-10T17:00:00   ITA                    4336                390
+230  2020-10-11T17:00:00   ITA                    4519                420
+231  2020-10-12T17:00:00   ITA                    4821                452
+232  2020-10-13T17:00:00   ITA                    5076                514
+233  2020-10-14T17:00:00   ITA                    5470                539
+
+     totale\_ospedalizzati  isolamento\_domiciliare  totale\_positivi  \textbackslash{}
+224                  3810                   55093            58903
+225                  3944                   56190            60134
+226                  4119                   58457            62576
+227                  4283                   61669            65952
+228                  4473                   65637            70110
+229                  4726                   70103            74829
+230                  4939                   74136            79075
+231                  5273                   77491            82764
+232                  5590                   81603            87193
+233                  6009                   86436            92445
+
+     variazione\_totale\_positivi  nuovi\_positivi  dimessi\_guariti  {\ldots}  \textbackslash{}
+224                        1474            2257           232681  {\ldots}
+225                        1231            2677           234099  {\ldots}
+226                        2442            3678           235303  {\ldots}
+227                        3376            4458           236363  {\ldots}
+228                        4158            5372           237549  {\ldots}
+229                        4719            5724           238525  {\ldots}
+230                        4246            5456           239709  {\ldots}
+231                        3689            4619           240600  {\ldots}
+232                        4429            5901           242028  {\ldots}
+233                        5252            7332           244065  {\ldots}
+
+     new\_cases  new\_deaths  new\_recovered  new\_swabs  new\_unique\_tested  \textbackslash{}
+224     2257.0        16.0          767.0    60241.0            36551.0
+225     2677.0        28.0         1418.0    99742.0            62513.0
+226     3677.0        31.0         1204.0   125314.0            80387.0
+227     4458.0        22.0         1060.0   128098.0            68985.0
+228     5372.0        28.0         1186.0   129471.0            77842.0
+229     5724.0        29.0          976.0   133084.0            80109.0
+230     5456.0        26.0         1184.0   104658.0            68708.0
+231     4619.0        39.0          891.0    85442.0            59649.0
+232     5898.0        41.0         1428.0   112544.0            70260.0
+233     7332.0        43.0         2037.0   152196.0            87601.0
+
+     daily\_cases\_perc\_change daily\_swab\_perc\_change  \textbackslash{}
+224                   -12.45                 -35.02
+225                    18.61                  65.57
+226                    37.36                  25.64
+227                    21.24                   2.22
+228                    20.50                   1.07
+229                     6.55                   2.79
+230                    -4.68                 -21.36
+231                   -15.34                 -18.36
+232                    27.69                  31.72
+233                    24.31                  35.23
+
+     daily\_unique\_tested\_perc\_change  detect\_ratio\_swabs  detect\_ratio\_cases
+224                           -38.43                3.75                6.17
+225                            71.03                2.68                4.28
+226                            28.59                2.93                4.57
+227                           -14.18                3.48                6.46
+228                            12.84                4.15                6.90
+229                             2.91                4.30                7.15
+230                           -14.23                5.21                7.94
+231                           -13.18                5.41                7.74
+232                            17.79                5.24                8.39
+233                            24.68                4.82                8.37
+
+[10 rows x 27 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}regional data preparation}
+
+\PY{n}{data\PYZus{}region\PYZus{}Abruzzo} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Abruzzo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Basilicata} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Basilicata}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Bolzano} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P.A. Bolzano}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Calabria} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Calabria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Campania} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Campania}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}EmiliaR} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Emilia\PYZhy{}Romagna}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Friuli} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Friuli Venezia Giulia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Lazio} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lazio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Liguria} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Liguria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Lombardia} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lombardia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Marche} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Marche}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Molise} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Molise}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Piemonte} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Piemonte}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Puglia} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Puglia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Sardegna} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sardegna}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Sicilia} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sicilia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Toscana} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Toscana}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Trento} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P.A. Trento}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Umbria} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Umbria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}VAosta} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Valle d}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Aosta}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Veneto} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{denominazione\PYZus{}regione}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Veneto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+
+\PY{k}{def} \PY{n+nf}{region\PYZus{}apply}\PY{p}{(}\PY{n}{region}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{region}\PY{p}{:}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=}  \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}casi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}deaths}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deceduti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}recovered}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dimessi\PYZus{}guariti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tamponi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}add a day/day\PYZhy{}1 percentage change for new\PYZus{}cases}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{daily\PYZus{}cases\PYZus{}perc\PYZus{}change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{daily\PYZus{}swab\PYZus{}perc\PYZus{}change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}detect ratio}
+        \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{detect\PYZus{}ratio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{k}{return}\PY{p}{;} 
+
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Abruzzo}\PY{p}{]}\PY{p}{)}  
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Basilicata}\PY{p}{]}\PY{p}{)} 
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Bolzano}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Calabria}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Campania}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}EmiliaR}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Friuli}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Lazio}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Liguria}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Lombardia}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Marche}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Molise}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Piemonte}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Puglia}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Sardegna}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Sicilia}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Toscana}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Trento}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}VAosta}\PY{p}{]}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{data\PYZus{}region\PYZus{}Veneto}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:27:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:28:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:29:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:30:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:32:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:33:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+C:\textbackslash{}Users\textbackslash{}alessio.zignaigo\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:35:
+SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data\PYZus{}region\PYZus{}Nordovest} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{denominazione\PYZus{}regione}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Piemonte}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lombardia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Liguria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Valle d}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Aosta}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Nordest} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{denominazione\PYZus{}regione}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Emilia\PYZhy{}Romagna}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P.A. Bolzano}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P.A. Trento}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Veneto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Friuli Venezia Giulia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Centro} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{denominazione\PYZus{}regione}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Toscana}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Umbria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Marche}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lazio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+\PY{n}{data\PYZus{}region\PYZus{}Sudisole} \PY{o}{=} \PY{n}{data\PYZus{}region}\PY{p}{[}\PY{p}{(}\PY{n}{data\PYZus{}region}\PY{o}{.}\PY{n}{denominazione\PYZus{}regione}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Abruzzo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Molise}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Campania}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Puglia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Basilicata}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Calabria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sicilia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sardegna}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{cases\PYZus{}Nordovest} \PY{o}{=} \PY{n}{data\PYZus{}region\PYZus{}Nordovest}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{cases\PYZus{}Nordovest}\PY{p}{]}\PY{p}{)}  
+\PY{n}{cases\PYZus{}Nordovest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{cases\PYZus{}Nordovest}\PY{o}{.}\PY{n}{index}
+
+\PY{n}{cases\PYZus{}Nordest} \PY{o}{=} \PY{n}{data\PYZus{}region\PYZus{}Nordest}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{cases\PYZus{}Nordest}\PY{p}{]}\PY{p}{)}  
+\PY{n}{cases\PYZus{}Nordest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{cases\PYZus{}Nordest}\PY{o}{.}\PY{n}{index}
+
+\PY{n}{cases\PYZus{}Centro} \PY{o}{=} \PY{n}{data\PYZus{}region\PYZus{}Centro}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{cases\PYZus{}Centro}\PY{p}{]}\PY{p}{)}  
+\PY{n}{cases\PYZus{}Centro}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{cases\PYZus{}Centro}\PY{o}{.}\PY{n}{index}
+
+\PY{n}{cases\PYZus{}Sudisole} \PY{o}{=} \PY{n}{data\PYZus{}region\PYZus{}Sudisole}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{region\PYZus{}apply}\PY{p}{(}\PY{p}{[}\PY{n}{cases\PYZus{}Sudisole}\PY{p}{]}\PY{p}{)}  
+\PY{n}{cases\PYZus{}Sudisole}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{cases\PYZus{}Sudisole}\PY{o}{.}\PY{n}{index}
+
+\PY{n}{cases\PYZus{}Nordovest}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                     codice\_regione         lat       long  \textbackslash{}
+data
+2020-10-10T17:00:00              13  180.689065  33.123883
+2020-10-11T17:00:00              13  180.689065  33.123883
+2020-10-12T17:00:00              13  180.689065  33.123883
+2020-10-13T17:00:00              13  180.689065  33.123883
+2020-10-14T17:00:00              13  180.689065  33.123883
+
+                     ricoverati\_con\_sintomi  terapia\_intensiva  \textbackslash{}
+data
+2020-10-10T17:00:00                     990                 95
+2020-10-11T17:00:00                    1057                101
+2020-10-12T17:00:00                    1190                 99
+2020-10-13T17:00:00                    1312                122
+2020-10-14T17:00:00                    1506                129
+
+                     totale\_ospedalizzati  isolamento\_domiciliare  \textbackslash{}
+data
+2020-10-10T17:00:00                  1085                   18304
+2020-10-11T17:00:00                  1158                   19542
+2020-10-12T17:00:00                  1289                   20519
+2020-10-13T17:00:00                  1434                   21968
+2020-10-14T17:00:00                  1635                   23340
+
+                     totale\_positivi  variazione\_totale\_positivi  \textbackslash{}
+data
+2020-10-10T17:00:00            19389                        1537
+2020-10-11T17:00:00            20700                        1311
+2020-10-12T17:00:00            21808                        1108
+2020-10-13T17:00:00            23402                        1594
+2020-10-14T17:00:00            24975                        1573
+
+                     nuovi\_positivi  {\ldots}  tamponi  casi\_testati  new\_cases  \textbackslash{}
+data                                 {\ldots}
+2020-10-10T17:00:00            1896  {\ldots}  3465148     2110501.0     1896.0
+2020-10-11T17:00:00            1845  {\ldots}  3490792     2127273.0     1845.0
+2020-10-12T17:00:00            1368  {\ldots}  3512901     2142217.0     1368.0
+2020-10-13T17:00:00            2145  {\ldots}  3544306     2159882.0     2145.0
+2020-10-14T17:00:00            2742  {\ldots}  3583560     2182422.0     2742.0
+
+                     new\_deaths  new\_recovered  new\_swabs  \textbackslash{}
+data
+2020-10-10T17:00:00         6.0          353.0    35760.0
+2020-10-11T17:00:00         8.0          526.0    25644.0
+2020-10-12T17:00:00         8.0          252.0    22109.0
+2020-10-13T17:00:00        10.0          541.0    31405.0
+2020-10-14T17:00:00        22.0         1147.0    39254.0
+
+                     daily\_cases\_perc\_change  daily\_swab\_perc\_change  \textbackslash{}
+data
+2020-10-10T17:00:00                    18.65                   -0.81
+2020-10-11T17:00:00                    -2.69                  -28.29
+2020-10-12T17:00:00                   -25.85                  -13.78
+2020-10-13T17:00:00                    56.80                   42.05
+2020-10-14T17:00:00                    27.83                   24.99
+
+                     detect\_ratio                 data
+data
+2020-10-10T17:00:00          5.30  2020-10-10T17:00:00
+2020-10-11T17:00:00          7.19  2020-10-11T17:00:00
+2020-10-12T17:00:00          6.19  2020-10-12T17:00:00
+2020-10-13T17:00:00          6.83  2020-10-13T17:00:00
+2020-10-14T17:00:00          6.99  2020-10-14T17:00:00
+
+[5 rows x 25 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig2} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}casi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{hover\PYZus{}data}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}casi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}casi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{600}\PY{p}{,} \PY{n}{color\PYZus{}continuous\PYZus{}scale}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sunsetdark}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig2}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Total COVID19 Cases \PYZhy{} Italy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{fig2}\PY{o}{.}\PY{n}{update\PYZus{}yaxes}\PY{p}{(}\PY{n}{tick0}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{dtick}\PY{o}{=}\PY{l+m+mi}{25000}\PY{p}{,}  \PY{n}{gridcolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{White}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig2}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig22} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{data\PYZus{}national}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}positivi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{hover\PYZus{}data}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}positivi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{totale\PYZus{}positivi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{600}\PY{p}{,} \PY{n}{color\PYZus{}continuous\PYZus{}scale}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sunsetdark}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig22}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Active COVID19 Cases \PYZhy{} Italy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{fig22}\PY{o}{.}\PY{n}{update\PYZus{}yaxes}\PY{p}{(}\PY{n}{tick0}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{dtick}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{,}  \PY{n}{gridcolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{White}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig22}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Nordovest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Nordovest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{North\PYZhy{}West}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Nordest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Nordest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{North\PYZhy{}East}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Centro}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Centro}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkviolet}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Sudisole}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Sudisole}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{South and Islands}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{All Italy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deepskyblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Daily Coronavirus new cases \PYZhy{} All Italy and Regions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Nordovest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Nordovest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{North\PYZhy{}West}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Nordest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Nordest}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{North\PYZhy{}East}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Centro}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Centro}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkviolet}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{cases\PYZus{}Sudisole}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{cases\PYZus{}Sudisole}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{South and Islands}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{All Italy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deepskyblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Daily swabs \PYZhy{} All Italy and Regions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{p}{)}
+
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}deaths}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily Deaths}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}recovered}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily Recovered}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Daily Coronavirus Deaths and Recoveries \PYZhy{} Italy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}yaxes}\PY{p}{(}\PY{n}{tick0}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{dtick}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily Cases}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deepskyblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily swabs}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{new\PYZus{}unique\PYZus{}tested}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily unique tested}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Daily Coronavirus new cases and swabs \PYZhy{} Italy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}yaxes}\PY{p}{(}\PY{n}{tick0}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{dtick}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig3} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{fig3}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{detect\PYZus{}ratio\PYZus{}swabs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily detect ratio \PYZhy{} Italy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{fig3}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}\PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}\PY{n}{mode} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lines+markers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{data\PYZus{}national}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{detect\PYZus{}ratio\PYZus{}cases}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily unique detect ratio \PYZhy{} Italy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                         \PY{n}{line\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+
+\PY{n}{fig3}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Daily Swabs detect ratio \PYZhy{} Italy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                  \PY{n}{xaxis\PYZus{}rangeslider\PYZus{}visible}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{fig3}\PY{o}{.}\PY{n}{update\PYZus{}yaxes}\PY{p}{(}\PY{n}{dtick}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
